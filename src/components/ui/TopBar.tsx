@@ -19,16 +19,6 @@ export default function TopBar() {
 
   const criticalCount = warnings.filter(w => w.severity === 'critical' || w.severity === 'high').length;
 
-  const handleExport = async () => {
-    const { default: html2canvas } = await import('html2canvas');
-    const canvas = document.querySelector('.react-flow') as HTMLElement;
-    if (!canvas) return;
-    const rendered = await html2canvas(canvas, { backgroundColor: '#0a0e1a', scale: 2 });
-    const link = document.createElement('a');
-    link.download = `oidc-sandbox-${arch?.shortName ?? 'diagram'}.png`;
-    link.href = rendered.toDataURL('image/png');
-    link.click();
-  };
 
   return (
     <div
@@ -105,7 +95,12 @@ export default function TopBar() {
         </button>
 
         {/* Export */}
-        <TopBarBtn onClick={handleExport} label="Export PNG">
+        <TopBarBtn 
+          onClick={() => {}} 
+          label="Export PNG" 
+          disabled={true}
+          title="Export feature is temporarily disabled for maintenance"
+        >
           <Download size={13} />
         </TopBarBtn>
 
@@ -119,7 +114,7 @@ export default function TopBar() {
 }
 
 function TopBarBtn({
-  children, onClick, active, label, badge, danger,
+  children, onClick, active, label, badge, danger, disabled, title,
 }: {
   children: React.ReactNode;
   onClick: () => void;
@@ -127,6 +122,8 @@ function TopBarBtn({
   label?: string;
   badge?: { count: number; color: string };
   danger?: boolean;
+  disabled?: boolean;
+  title?: string;
 }) {
   const baseColor = danger ? '#f87171' : '#94a3b8';
   const activeBg = danger ? 'rgba(248,113,113,0.1)' : 'rgba(56,189,248,0.1)';
@@ -134,15 +131,26 @@ function TopBarBtn({
   return (
     <button
       onClick={onClick}
-      title={label}
-      className="relative flex items-center gap-1.5 px-3 h-7 rounded-lg text-xs font-medium transition-all"
+      title={title || label}
+      disabled={disabled}
+      className={`relative flex items-center gap-1.5 px-3 h-7 rounded-lg text-xs font-medium transition-all ${
+        disabled ? 'opacity-50 cursor-not-allowed' : ''
+      }`}
       style={{
-        background: active ? activeBg : 'rgba(255,255,255,0.04)',
+        background: disabled ? 'rgba(255,255,255,0.02)' : (active ? activeBg : 'rgba(255,255,255,0.04)'),
         border: `1px solid ${active ? 'rgba(56,189,248,0.3)' : 'rgba(255,255,255,0.08)'}`,
-        color: active ? '#38bdf8' : baseColor,
+        color: disabled ? '#64748b' : (active ? '#38bdf8' : baseColor),
       }}
-      onMouseEnter={e => (e.currentTarget.style.background = active ? activeBg : 'rgba(255,255,255,0.08)')}
-      onMouseLeave={e => (e.currentTarget.style.background = active ? activeBg : 'rgba(255,255,255,0.04)')}
+      onMouseEnter={e => {
+        if (!disabled) {
+          e.currentTarget.style.background = active ? activeBg : 'rgba(255,255,255,0.08)';
+        }
+      }}
+      onMouseLeave={e => {
+        if (!disabled) {
+          e.currentTarget.style.background = active ? activeBg : 'rgba(255,255,255,0.04)';
+        }
+      }}
     >
       {children}
       {label && <span className="hidden sm:inline">{label}</span>}
