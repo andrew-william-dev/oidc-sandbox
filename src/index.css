@@ -1,0 +1,260 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --canvas-bg: #0a0e1a;
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--canvas-bg);
+  color: #e2e8f0;
+  font-family: 'Inter', system-ui, sans-serif;
+  overflow: hidden;
+}
+
+/* ===================== React Flow Overrides ===================== */
+.react-flow__background {
+  background-color: transparent !important;
+}
+
+.react-flow__pane {
+  cursor: default !important;
+}
+
+.react-flow__node {
+  cursor: grab !important;
+}
+
+.react-flow__node:active {
+  cursor: grabbing !important;
+}
+
+/* Edge selection handles */
+.react-flow__edge-path {
+  stroke-width: 2;
+}
+
+/* MiniMap styling */
+.react-flow__minimap {
+  background-color: #111827 !important;
+  border: 1px solid #1e2d4a !important;
+  border-radius: 8px !important;
+}
+
+.react-flow__minimap-mask {
+  fill: rgba(56, 189, 248, 0.08) !important;
+}
+
+.react-flow__controls {
+  border: 1px solid #1e2d4a !important;
+  border-radius: 8px !important;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4) !important;
+}
+
+.react-flow__controls-button {
+  background: #111827 !important;
+  border-bottom: 1px solid #1e2d4a !important;
+  color: #94a3b8 !important;
+  transition: all 0.15s ease !important;
+}
+
+.react-flow__controls-button:hover {
+  background: #1a2236 !important;
+  color: #38bdf8 !important;
+}
+
+.react-flow__controls-button svg {
+  fill: currentColor !important;
+}
+
+/* ===================== 3D Card Depth Effects ===================== */
+.component-card {
+  perspective: 800px;
+  transform-style: preserve-3d;
+}
+
+.component-card-inner {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.component-card:hover .component-card-inner {
+  transform: translateY(-3px) rotateX(3deg);
+}
+
+/* ===================== Neon Glow Animations ===================== */
+@keyframes neon-pulse-blue {
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(56,189,248,0.6)); }
+  50% { filter: drop-shadow(0 0 12px rgba(56,189,248,0.9)); }
+}
+
+@keyframes neon-pulse-orange {
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(251,146,60,0.6)); }
+  50% { filter: drop-shadow(0 0 12px rgba(251,146,60,0.9)); }
+}
+
+@keyframes neon-pulse-green {
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(74,222,128,0.6)); }
+  50% { filter: drop-shadow(0 0 12px rgba(74,222,128,0.9)); }
+}
+
+@keyframes neon-pulse-red {
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(248,113,113,0.6)); }
+  50% { filter: drop-shadow(0 0 12px rgba(248,113,113,0.9)); }
+}
+
+.neon-animate-blue { animation: neon-pulse-blue 2s ease-in-out infinite; }
+.neon-animate-orange { animation: neon-pulse-orange 2s ease-in-out infinite; }
+.neon-animate-green { animation: neon-pulse-green 2s ease-in-out infinite; }
+.neon-animate-red { animation: neon-pulse-red 2s ease-in-out infinite; }
+
+/* ===================== Scrollbar Styling ===================== */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #111827;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e2d4a;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2a3f6a;
+}
+
+/* ===================== Panel Backdrop ===================== */
+.panel-backdrop {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* ===================== Packet Trail Effect ===================== */
+@keyframes packet-trail {
+  0% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.3); }
+}
+
+/* ===================== Selection Highlight ===================== */
+.react-flow__node.selected > div {
+  box-shadow: 0 0 0 2px #38bdf8;
+}
+
+/* ===================== Dash Flow Animation ===================== */
+@keyframes dash-flow {
+  to { stroke-dashoffset: -200; }
+}
+
+@keyframes dash-flow-reverse {
+  to { stroke-dashoffset: 200; }
+}
+
+
+/* ===================== Tooltip ===================== */
+.tooltip {
+  position: absolute;
+  z-index: 9999;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* ===================== Security Badge Pulse ===================== */  
+@keyframes badge-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(248,113,113,0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(248,113,113,0); }
+}
+
+.badge-pulse-red {
+  animation: slide-up 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* =========================================
+   DRIVER.JS WALKTHROUGH TOUR OVERRIDES
+   ========================================= */
+.driver-popover {
+  background-color: #111827 !important;
+  color: #e2e8f0 !important;
+  border: 1px solid rgba(56, 189, 248, 0.3) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.7), 0 0 20px rgba(56, 189, 248, 0.1) !important;
+  font-family: 'Inter', system-ui, sans-serif !important;
+  padding: 20px !important;
+}
+
+.driver-popover-title {
+  font-weight: 700 !important;
+  color: #f8fafc !important;
+  font-size: 1.125rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.driver-popover-description {
+  color: #94a3b8 !important;
+  font-size: 0.875rem !important;
+  line-height: 1.5 !important;
+}
+
+.driver-popover-footer button {
+  background-color: #1e293b !important;
+  color: #e2e8f0 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 6px !important;
+  padding: 6px 12px !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  text-shadow: none !important;
+  transition: all 0.2s;
+}
+
+.driver-popover-footer button:hover {
+  background-color: #334155 !important;
+}
+
+.driver-popover-footer .driver-popover-next-btn {
+  background-color: rgba(37, 99, 235, 0.8) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(59, 130, 246, 0.5) !important;
+}
+
+.driver-popover-footer .driver-popover-next-btn:hover {
+  background-color: #2563eb !important;
+}
+
+.driver-popover-progress-text {
+  color: #64748b !important;
+  font-size: 0.75rem !important;
+}
+
+@keyframes attack-pulse {
+  0%, 100% { box-shadow: 0 0 0 2px #f87171, 0 0 15px rgba(248,113,113,0.3); }
+  50% { box-shadow: 0 0 0 4px #f87171, 0 0 30px rgba(248,113,113,0.7); }
+}
+
+.pulse-border {
+  animation: attack-pulse 2s ease-in-out infinite;
+}
